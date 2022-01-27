@@ -1,0 +1,19 @@
+.icone {
+    max-width: 30% !important;
+    max-width: 60px !important;
+    display: block;
+    margin: 0 auto;
+}
+
+.div_temp {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    text-align: center;
+}
+.temp_min, .temp, .temp_max {
+    display: table-cell;
+}
+.temp {
+    font-size: 1.5em;
+}
