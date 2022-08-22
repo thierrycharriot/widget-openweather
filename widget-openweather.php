@@ -42,11 +42,13 @@ class Widget_OpenWeather extends WP_Widget {
 		//print_r( $instance );
 		if ( ! empty( $instance['idville'] ) && ! empty( $instance['cleapi'] )) {
 			$requete = ( 'https://api.openweathermap.org/data/2.5/weather?id=' . $instance['idville'] . '&appid=' . $instance['cleapi'] . '&lang=fr&units=metric' );
-			$reponse = file_get_contents($requete);
-			$objetsjson = json_decode($reponse);
-			//var_dump($objetsjson);
+			$reponse = file_get_contents( $requete );
+			//var_dump( $requete );// Debug OK
+			$objetsjson = json_decode( $reponse );
+			//var_dump( $reponse );// Debug OK
+			//var_dump( $objetsjson );// Debug OK
 			$patelin    = $objetsjson -> name;
-			if ($patelin) {
+			if ( $patelin ) {
 				//echo $patelin;
 				echo $args['before_title'] . 'Météo ' . apply_filters( 'widget_title', $patelin ) . $args['after_title'];
 				//echo esc_html__( 'Hello, Widget_Openweather!', 'text_domain' );
@@ -63,9 +65,9 @@ class Widget_OpenWeather extends WP_Widget {
 				echo '<img class="icone" src="' . plugin_dir_url(__FILE__) . 'node_modules/open-weather-icons/src/svg/' . $icone . '" />';            
 				echo '<div class="temperature_widget">';
 					echo '<ul class="div_temp" style="list-style: none; padding-left: 1.2em;">';
-						echo '<li class="temp_min">' . round($temp_min) . ' °C</li>';
-						echo '<li class="temp"><b>' . round($temp) . ' °C</b></li>';
-						echo '<li class="temp_max">' . round($temp_max) . ' °C</li>';
+						echo '<li class="temp_min">' . round( $temp_min ) . ' °C</li>';
+						echo '<li class="temp"><b>' . round( $temp ) . ' °C</b></li>';
+						echo '<li class="temp_max">' . round( $temp_max ) . ' °C</li>';
 					echo '</ul>';
 					echo '<ul style="list-style: none; padding-left: 1.2em;">';
 						echo '<li>Description: <b>' . $description . '</b></li>';
@@ -121,13 +123,17 @@ class Widget_OpenWeather extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		// traiter les options du widget à enregistrer
 		$instance = array();
-		$instance['idville'] = ( ! empty( $new_instance['idville'] ) ) ? sanitize_text_field( $new_instance['idville'] ) : '';
-		$instance['cleapi'] = ( ! empty( $new_instance['cleapi'] ) ) ? sanitize_text_field( $new_instance['cleapi'] ) : '';
+		$instance['idville'] = ( !empty( $new_instance['idville'] ) ) ? sanitize_text_field( $new_instance['idville'] ) : '';
+		$instance['cleapi'] = ( !empty( $new_instance['cleapi'] ) ) ? sanitize_text_field( $new_instance['cleapi'] ) : '';
 		return $instance;
 	}
 }
 
-// https://developer.wordpress.org/reference/functions/register_widget/
+/**
+ * https://developer.wordpress.org/reference/functions/register_widget/
+ * register_widget( string|WP_Widget $widget )
+ * Register a widget
+ */
 function register_widget_openweather() {
     register_widget( 'Widget_OpenWeather' );
     wp_enqueue_style( 'widget_openweather', plugin_dir_url(__FILE__) . 'widget-openweather.css' );
@@ -135,3 +141,4 @@ function register_widget_openweather() {
 add_action( 'widgets_init', 'register_widget_openweather' );
 
 /// Fin
+
